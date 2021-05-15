@@ -170,8 +170,13 @@ const t0 = performance.now();
 const solvedSudoku = solve(sudoku, 0, 0);
 const t1 = performance.now();
 
-// Print everything out and write it to a file.
-const humanReadableSudoku = toHumanReadableGrid(solvedSudoku);
-require('fs').writeFileSync('./solution.txt', humanReadableSudoku);
-console.log(humanReadableSudoku);
-console.log(`Solving the sudoku took ${(t1 - t0)/1000} seconds.`);
+if (solvedSudoku) {    
+    // Print everything out and write it to a file.
+    const humanReadableSudoku = toHumanReadableGrid(solvedSudoku);
+    require('fs').writeFileSync('./solution.txt', humanReadableSudoku);
+    console.log(humanReadableSudoku);
+} else {
+    console.log('The sudoku was unsolvable.');
+}
+
+console.log(`Completing the analysis took ${(t1 - t0)/1000} seconds.`);
