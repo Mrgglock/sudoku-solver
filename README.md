@@ -29,6 +29,18 @@ The script does not check if the provided Sudoku is valid in the first place. Pl
 # Example
 ### Sudoku Problem
 ![image](https://user-images.githubusercontent.com/9843579/118370960-bf30a180-b5dc-11eb-832e-e349b1f4f43e.png)
+### sudoku.txt
+```000801000
+000000430
+500000000
+000070800
+000000100
+020030000
+600000075
+003400000
+000200600
+```
+
 ### Console
 ```$ node index.js
 234 891 567
@@ -45,4 +57,8 @@ The script does not check if the provided Sudoku is valid in the first place. Pl
 Solving the sudoku took 172.355930399999 seconds.
 ```
 In C:
-```Solving the sudoku took 11.20400 seconds.```
+```
+Solving the sudoku took 11.20400 seconds.
+```
+
+`solution.txt` will also contain the above solution for future reference.
