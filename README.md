@@ -1,13 +1,19 @@
 # sudoku-solver
 A small project to understand backtracking.
 
-This program was made in Node.js (version 12.19.0).
+This program was made in JavaScript as well as C.
+Node.js (version 12.19.0), gcc (version 10.3.0). 
+
 This project has **0** dependencies.
 
 # How To Use
 1. Open `sudoku.txt`.
 2. Using `0`s for blanks and the numbers `1` to `9`, fill it up row-by-row with your Sudoku puzzle, separating it with line breaks `\n` after every row.
 3. Run the program using `node index.js`.
+  - If you are using JavaScript:
+    - Run the program using `node index.js`.
+  - If you are using C:
+    - Compile the program using gcc and run `index.exe`.
 4. Wait.
 5. You should see something happen, depending on if the Sudoku was solvable.
   - If it was solvable:
@@ -38,3 +44,5 @@ The script does not check if the provided Sudoku is valid in the first place. Pl
 781 253 694
 Solving the sudoku took 172.355930399999 seconds.
 ```
+In C:
+```Solving the sudoku took 11.20400 seconds.```
