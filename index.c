@@ -7,18 +7,67 @@ bool arrayContains(char array[], int arrayLen, int val);
 bool isAllUniqueIn(char array[9]);
 bool isValid(char grid[9][9], int row, int col);
 bool solve(char grid[9][9], int row, int col);
+void loadSudoku(char grid[9][9], char *filepath);
+bool isGoodSudoku(char *filepath);
 
 int main(void) {
     // Read from sudoku.txt into a 9x9 array.
     char grid[9][9];
-
-    // Open file
-    FILE *file = fopen("sudoku.txt", "r");
-    if (file == NULL) {
-        printf("The file was not found.");
+    char *filepath = "sudoku.txt";
+    // Is the sudoku valid.
+    if (!isGoodSudoku(filepath)) {
+        printf("This sudoku is invalid.\n");
         return 1;
     }
+    // Load the sudoku.
+    loadSudoku(grid, filepath);
 
+    // Solve it.
+    clock_t t0 = clock();
+    if (!solve(grid, 0, 0)) {
+        printf("The sudoku was unsolvable.\n");
+    }
+    clock_t t1 = clock();
+    double t = (double)(t1 - t0)/(CLOCKS_PER_SEC);
+    printf("Completing the analysis took %f seconds.\n", t);
+    return 0;
+}
+
+bool isGoodSudoku(char *filepath) {
+    FILE *file = fopen(filepath, "r");
+    char c;
+    int row = 0;
+    int col = 0;
+    // read each char
+    while (fread(&c, sizeof(char), 1, file)) {
+        // if a newline is found, make sure it's the 9th character.
+        if (c == '\n') {
+            if (col != 9) { 
+                fclose(file); 
+                return false; 
+            }
+            // good newline.
+            row++;
+            col = 0;
+            continue;
+        }
+        // make sure this non-newline char is a number.
+        if (!(c >= '0' && c <= '9')) {
+            fclose(file);
+            return false;
+        }
+        col++;
+        if (row == 9) {
+            fclose(file);
+            return false;
+        }
+    }
+    return true;
+}
+
+void loadSudoku(char grid[9][9], char *filepath) {
+    // Open file
+    FILE *file = fopen(filepath, "r");
     // Read into it
     char c;
     int row = 0;
@@ -33,21 +82,10 @@ int main(void) {
         col++;
     }
     fclose(file);
-
-    clock_t t0 = clock();
-    if (!solve(grid, 0, 0)) {
-        printf("The sudoku was unsolvable.\n");
-    }
-    clock_t t1 = clock();
-    double t = (double)(t1 - t0)/(CLOCKS_PER_SEC);
-    printf("Completing the analysis took %f seconds.\n", t);
-    return 0;
 }
 
 void printGrid(char grid[9][9]) {
     FILE *solution = fopen("solution.txt", "w");
-    char space = ' ';
-    char newline = '\n';
     for (int r = 0; r < 9; r++) {
         for (int c = 0; c < 9; c++) {
             char cell = grid[r][c];
@@ -55,15 +93,15 @@ void printGrid(char grid[9][9]) {
             printf("%c", cell);
             // new space
             if (c == 2 || c == 5) {
-                fwrite(&space, sizeof(char), 1, solution);
+                fwrite(" ", sizeof(char), 1, solution);
                 printf("%c", ' ');
             }
         }
         // new line
-        fwrite(&newline, sizeof(char), 1, solution);
+        fwrite("\n", sizeof(char), 1, solution);
         printf("\n");
         if (r == 2 || r == 5) {
-            fwrite(&newline, sizeof(char), 1, solution);
+            fwrite("\n", sizeof(char), 1, solution);
             printf("\n");
         }
     }

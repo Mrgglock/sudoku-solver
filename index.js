@@ -11,6 +11,26 @@ function loadSudoku(filepath) {
 }
 
 /**
+ * Checks if the 9x9 array is a parsable sudoku. Returns `true` if it is, `false` otherwise.
+ * @param  {array} array
+ * @returns  {boolean}
+ */
+function isGoodPuzzle(array) {
+    // there must be 9 rows
+    if (array.length != 9) return false;
+    for (const row of array) {
+        // each with 9 elements
+        if (row.length != 9) return false;
+        for (const ele of row) {
+            // of which are numbers between 0 and 9
+            if (typeof ele != 'number') return false;
+            if (!(ele >= 0 && ele <= 9)) return false;
+        }
+    }
+    return true;
+}
+
+/**
  * Takes in a 9x9 array, and validates the grid only based on the new `row` and `col` of the cell.
  * @param  {number[][]} sudoku
  * @param  {number} row
@@ -159,24 +179,33 @@ function toHumanReadableGrid(puzzle) {
     }
 }
 
-// Load the sudoku.
-const sudoku = loadSudoku("sudoku.txt");
+function main() {
+    // Load the sudoku.
+    const sudoku = loadSudoku("sudoku.txt");
 
-// Log the time taken.
-const { performance } = require('perf_hooks');
-const t0 = performance.now();
+    if (!isGoodPuzzle(sudoku)) {
+        console.log("This sudoku is invalid.");
+        return;
+    }
 
-// Solve the sudoku.
-const solvedSudoku = solve(sudoku, 0, 0);
-const t1 = performance.now();
+    // Log the time taken.
+    const { performance } = require('perf_hooks');
+    const t0 = performance.now();
 
-if (solvedSudoku) {    
-    // Print everything out and write it to a file.
-    const humanReadableSudoku = toHumanReadableGrid(solvedSudoku);
-    require('fs').writeFileSync('./solution.txt', humanReadableSudoku);
-    console.log(humanReadableSudoku);
-} else {
-    console.log('The sudoku was unsolvable.');
+    // Solve the sudoku.
+    const solvedSudoku = solve(sudoku, 0, 0);
+    const t1 = performance.now();
+
+    if (solvedSudoku) {    
+        // Print everything out and write it to a file.
+        const humanReadableSudoku = toHumanReadableGrid(solvedSudoku);
+        require('fs').writeFileSync('./solution.txt', humanReadableSudoku);
+        console.log(humanReadableSudoku);
+    } else {
+        console.log('The sudoku was unsolvable.');
+    }
+
+    console.log(`Completing the analysis took ${(t1 - t0)/1000} seconds.`);
 }
 
-console.log(`Completing the analysis took ${(t1 - t0)/1000} seconds.`);
+main();
