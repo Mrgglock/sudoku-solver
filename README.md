@@ -6,6 +6,8 @@ Node.js (version 12.19.0), gcc (version 10.3.0).
 
 This project has **0** dependencies.
 
+This program returns the first solution found to a sudoku problem.
+
 # How To Use
 1. Open `sudoku.txt`.
 2. Using `0`s for blanks and the numbers `1` to `9`, fill it up row-by-row with your Sudoku puzzle, separating it with line breaks `\n` after every row.
@@ -21,16 +23,19 @@ This project has **0** dependencies.
     - In addition, the solution is written to a new file `solution.txt`.
   - If it was unsolvable:
     - You should see `The sudoku was unsolvable.` printed on your console.
+  - If it was invalid:
+    - You should see `This sudoku is invalid.` printed on your console.
 6. You should also see `Completing the analysis took n seconds.` printed on your console, stating how long it took to process the result.
 
 # Known Issues
-The script does not check if the provided Sudoku is valid in the first place. Please use with care.
+None.
 
 # Example
 ### Sudoku Problem
 ![image](https://user-images.githubusercontent.com/9843579/118370960-bf30a180-b5dc-11eb-832e-e349b1f4f43e.png)
 ### sudoku.txt
-```000801000
+```
+000801000
 000000430
 500000000
 000070800
